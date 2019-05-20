@@ -7,10 +7,9 @@ phases:
       - pipenv lock -r > requirements.txt
       - pip install -r requirements.txt -t .
       - pip install --upgrade awscli
-      - pip install pytest
-  pre_build:
-    commands:
-      - pytest
+  # pre_build:
+  #   commands:
+  #     - pytest
   build:
     commands:
       - rm -rf terraform
