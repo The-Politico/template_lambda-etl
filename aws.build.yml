@@ -4,6 +4,7 @@ phases:
   install:
     commands:
       - pip install --user pipenv
+      - pip install --user numpy
       - pipenv lock -r > requirements.txt
       - pip install -r requirements.txt -t .
       - pip install --upgrade awscli
