@@ -16,7 +16,7 @@ def token_authed(f):
             response.status_code = 401
             return response
 
-        if token != os.getenv("API_AUTH_TOKEN", ""):
+        if token != os.getenv("API_VERIFICATION_TOKEN", ""):
             response = jsonify({"msg": "Not authorized"})
             response.status_code = 403
             return response

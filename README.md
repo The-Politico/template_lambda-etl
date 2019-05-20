@@ -33,6 +33,6 @@ To test, create a file named `dev/test/.env` using the `.env.example` in that fo
 Now run:
 
 ```
-$ yarn build
-$ yarn test
+$ pipenv install
+$ pipenv run pytest
 ```

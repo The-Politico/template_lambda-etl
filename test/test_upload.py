@@ -17,7 +17,9 @@ def test_bad_data(client):
         data=data,
         content_type="multipart/form-data",
         headers={
-            "Authorization": "Token {}".format(os.getenv("API_AUTH_TOKEN", ""))
+            "Authorization": "Token {}".format(
+                os.getenv("API_VERIFICATION_TOKEN", "")
+            )
         },
     )
     assert response.status_code == 500
@@ -31,7 +33,9 @@ def test_data_upload(client):
         data=data,
         content_type="multipart/form-data",
         headers={
-            "Authorization": "Token {}".format(os.getenv("API_AUTH_TOKEN", ""))
+            "Authorization": "Token {}".format(
+                os.getenv("API_VERIFICATION_TOKEN", "")
+            )
         },
     )
     assert response.status_code == 200

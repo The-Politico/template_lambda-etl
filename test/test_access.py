@@ -25,7 +25,7 @@ def test_unauthorized_upload_bad_token(client):
         content_type="multipart/form-data",
         headers={
             "Authorization": "Token {}bad".format(
-                os.getenv("API_AUTH_TOKEN", "")
+                os.getenv("API_VERIFICATION_TOKEN", "")
             )
         },
     )
