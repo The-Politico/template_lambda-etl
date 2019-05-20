@@ -4,7 +4,7 @@ phases:
   install:
     commands:
       - pip install --user pipenv
-      - sudo yum install numpy
+      - pip install numpy -t .
       - pipenv lock -r > requirements.txt
       - pip install -r requirements.txt -t .
       - pip install --upgrade awscli
