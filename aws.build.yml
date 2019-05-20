@@ -3,8 +3,6 @@ version: 0.2
 phases:
   install:
     commands:
-      - pip install --user pipenv
-      - pipenv lock -r > requirements.txt
       - pip install -r requirements.txt -t .
       - pip install --upgrade awscli
   # pre_build:
@@ -12,6 +10,7 @@ phases:
   #     - pytest
   build:
     commands:
+      - rm -rf numpy
       - rm -rf terraform
       - rm -rf docs
       - rm -rf test
