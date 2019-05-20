@@ -1,0 +1,2 @@
+class MismatchedDataSchema(Exception):
+    pass
