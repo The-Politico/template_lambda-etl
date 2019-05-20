@@ -1,5 +1,5 @@
 import awsgi
-from .server import app
+from server import app
 
 
 def handler(event, context):
