@@ -10,7 +10,10 @@ phases:
   #     - pytest
   build:
     commands:
+      # Remove libs supplied by lambda layers
       - rm -rf numpy
+      - rm -rf pandas
+      # Remove unnecessary files
       - rm -rf terraform
       - rm -rf docs
       - rm -rf test
