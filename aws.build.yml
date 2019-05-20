@@ -14,7 +14,7 @@ phases:
       - rm -rf terraform
       - rm -rf docs
       - rm -rf test
-      - python pandas/setup.py build_ext --inplace --force
+      - python ./pandas/setup.py build_ext --inplace --force
       # Use AWS SAM to package the application by using AWS CloudFormation
       - aws cloudformation package --template aws.template.yml --s3-bucket $S3_BUCKET --s3-prefix cloudformation-templates/$PROJECT_SLUG --output-template template-export.yml
 
