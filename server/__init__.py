@@ -57,7 +57,7 @@ def index():
         print("files", request.files.to_dict())
         print("method", request.method)
         print("form", request.form.to_dict())
-        print("data", request.data.to_dict())
+        print("data", request.data)
         response = jsonify({"message": "No file submitted"})
         response.status_code = 500
         return response
