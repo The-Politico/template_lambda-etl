@@ -1,7 +1,8 @@
 import os
 from uuid import uuid4
 
-from flask import Flask, request, redirect, flash, jsonify
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from process import Process
 from .auth import token_authed
@@ -11,9 +12,11 @@ import glob
 ALLOWED_EXTENSIONS = ["xlsx"]
 
 app = Flask(__name__)
+CORS(app)
 
-app.secret_key = b"SET_A_BETTER_SECRET_KEY"
+app.secret_key = b"SECRET_KEY"
 
+app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024  # 50MB limit
 app.config["UPLOAD_FOLDER"] = (
     "/tmp/uploads" if os.getenv("LAMBDA", False) else "./.tmp/uploads"
 )
