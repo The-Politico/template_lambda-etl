@@ -44,7 +44,7 @@ def clear_uploads():
 def index():
     # Server check
     if request.method == "GET":
-        response = jsonify({"message": "OK"})
+        response = jsonify({"message": "API OK"})
         response.status_code = 200
         return response
     # check if the post request has the file part
