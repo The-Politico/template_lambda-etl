@@ -48,17 +48,23 @@ def index():
         response = jsonify({"message": "API OK"})
         response.status_code = 200
         return response
+
     # check if the post request has the file part
     if "file" not in request.files:
-        flash("No file part")
-        return redirect(request.url)
+        response = jsonify({"message": "No file submitted"})
+        response.status_code = 500
+        return response
+
     file = request.files["file"]
-    ensure_tmp()
+
     # if user does not select file, browser also
     # submit an empty part without filename
     if file.filename == "":
-        flash("No selected file")
-        return redirect(request.url)
+        response = jsonify({"message": "File submitted has no filename"})
+        response.status_code = 500
+        return response
+
+    ensure_tmp()
     if file and allowed_file(file.filename):
         filename = get_filename()
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
