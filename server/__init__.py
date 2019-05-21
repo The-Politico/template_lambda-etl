@@ -53,7 +53,8 @@ def index():
     if "file" not in request.files:
         print(request.files)
         print(request.method)
-        print(request)
+        print(request.data)
+        print(request.form)
         response = jsonify({"message": "No file submitted"})
         response.status_code = 500
         return response
