@@ -40,14 +40,14 @@ def clear_uploads():
         os.remove(file)
 
 
-@app.route("/", methods=["POST"])
+@app.route("/", methods=["GET", "POST"])
 @token_authed
 def index():
     # # Server check
-    # if request.method == "GET":
-    #     response = jsonify({"message": "API OK"})
-    #     response.status_code = 200
-    #     return response
+    if request.method == "GET":
+        response = jsonify({"message": "API OK"})
+        response.status_code = 200
+        return response
 
     # check if the post request has the file part
     if "file" not in request.files:
