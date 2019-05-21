@@ -12,6 +12,7 @@ ALLOWED_EXTENSIONS = ["xlsx"]
 
 app = Flask(__name__)
 
+app.secret_key = b"SET_A_BETTER_SECRET_KEY"
 
 app.config["UPLOAD_FOLDER"] = (
     "/tmp/uploads" if os.getenv("LAMBDA", False) else "./.tmp/uploads"
