@@ -15,8 +15,8 @@ Resources:
     Properties:
       Handler: index.handler
       Runtime: python3.6
-      Timeout: 10
-      MemorySize: 320
+      Timeout: 15
+      MemorySize: 256
       Environment:
         Variables:
           LAMBDA: true

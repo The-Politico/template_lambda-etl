@@ -3,6 +3,8 @@ version: 0.2
 phases:
   install:
     commands:
+      - pip install --user pipenv
+      - pipenv lock -r > requirements.txt
       - pip install -r requirements.txt -t .
       - pip install --upgrade awscli
   # pre_build:
@@ -10,7 +12,7 @@ phases:
   #     - pytest
   build:
     commands:
-      # Remove libs supplied by lambda layers
+      # Remove libs supplied by our Lambda layer
       - rm -rf numpy
       - rm -rf pandas
       # Remove unnecessary files
