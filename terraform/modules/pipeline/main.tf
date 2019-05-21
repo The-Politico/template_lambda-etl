@@ -26,7 +26,7 @@ module "codedeploy_role" {
 resource "aws_codebuild_project" "project" {
   name = "${var.project_slug}"
   description = "${var.project_slug} CodeBuild Project"
-  build_timeout = "10"
+  build_timeout = "5"
   service_role = "${module.codepipeline_role.id}"
 
   environment {

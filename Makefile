@@ -19,3 +19,9 @@ destroy:
 	-var-file="terraform/config/config.tfvars" \
 	-var-file="terraform/config/config.tfvars.secret" \
 	./terraform
+
+refresh:
+	terraform refresh \
+	-var-file="terraform/config/config.tfvars" \
+	-var-file="terraform/config/config.tfvars.secret" \
+	./terraform
