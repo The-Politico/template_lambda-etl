@@ -49,11 +49,11 @@ def index():
         response.status_code = 200
         return response
 
-    print(request.files)
-    print(request.method)
-    print(request)
     # check if the post request has the file part
     if "file" not in request.files:
+        print(request.files)
+        print(request.method)
+        print(request)
         response = jsonify({"message": "No file submitted"})
         response.status_code = 500
         return response
