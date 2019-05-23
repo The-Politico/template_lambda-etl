@@ -16,6 +16,7 @@ requests = "*"
 flask-cors = "*"
 slackclient = "*"
 politico-toolbox = "*"
+idna-ssl = "*"
 
 [requires]
 python_version = "3.6"
