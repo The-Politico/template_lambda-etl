@@ -22,6 +22,7 @@ def slack_signed(f):
 
     @wraps(f)
     def decorated_function(*args, **kwargs):
+
         req_signature = request.headers.get("X-Slack-Signature")
         req_timestamp = request.headers.get("X-Slack-Request-Timestamp")
 
@@ -36,7 +37,9 @@ def slack_signed(f):
 
         body = request.get_data()
         if isinstance(body, str):
-            body = str.encode(body)
+            print("CONVERTS BODY", body)
+            body = body.encode("utf-8")
+            print("BYTES", body)
 
         if verify_signature(req_timestamp, req_signature, body):
             print("VERIFIED")
