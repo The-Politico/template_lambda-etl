@@ -27,6 +27,8 @@ def index():
     if event_type != "file_shared":
         return Response("Unsupported event type", status=401)
 
+    print("EVENT", event)
+
     file_id = event.get("file_id", None)
 
     if not file_id:
