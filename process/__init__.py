@@ -1,7 +1,8 @@
 import os
 from os import path
 import pandas as pd
-import requests
+
+# import requests
 from .errors import MismatchedDataSchema
 
 
@@ -33,17 +34,20 @@ class Process:
         """Load your clean data into an API or upload a static file."""
         data = self.df.to_json(orient="records")
         if os.getenv("LAMBDA"):
-            requests.post(
-                "http://localhost:3000/mock-api/",
-                headers={
-                    "Access-Control-Allow-Origin": "*",
-                    "Content-Type": "application/json",
-                    "Authorization": "Token {}".format(
-                        os.getenv("API_AUTH_TOKEN")
-                    ),
-                },
-                data=data,
-            )
+            print("SUCCESSFULLY PROCESSED")
+            # Do something here
+            return
+            # requests.post(
+            #     "http://localhost:3000/mock-api/",
+            #     headers={
+            #         "Access-Control-Allow-Origin": "*",
+            #         "Content-Type": "application/json",
+            #         "Authorization": "Token {}".format(
+            #             os.getenv("API_AUTH_TOKEN")
+            #         ),
+            #     },
+            #     data=data,
+            # )
         else:
             print(data)
 

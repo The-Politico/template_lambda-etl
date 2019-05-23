@@ -14,6 +14,8 @@ pandas = "*"
 xlrd = "*"
 requests = "*"
 flask-cors = "*"
+slackclient = "*"
+politico-toolbox = "*"
 
 [requires]
 python_version = "3.6"

@@ -1,94 +1,49 @@
-import os
-from uuid import uuid4
-
-from flask import Flask, request, jsonify
+from flask import Flask, request, Response
 from flask_cors import CORS
-from werkzeug.utils import secure_filename
 from process import Process
-from .auth import token_authed
-
-import glob
-
-ALLOWED_EXTENSIONS = ["xlsx"]
+from toolbox.flask.authentication.slack import slack_signed
+from .slack import fetch_slack_file, notify_error, notify_success
+from .utils import clear_tmp
 
 app = Flask(__name__)
 CORS(app)
 
 app.secret_key = b"SECRET_KEY"
 
-app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024  # 50MB limit
-app.config["UPLOAD_FOLDER"] = (
-    "/tmp/uploads" if os.getenv("LAMBDA", False) else "./.tmp/uploads"
-)
 
-
-def allowed_file(filename):
-    return (
-        "." in filename
-        and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
-    )
-
-
-def ensure_tmp():
-    os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
-
-
-def get_filename():
-    return secure_filename("data_{}.xlsx".format(uuid4().hex))
-
-
-def clear_uploads():
-    files = glob.glob("{}/*".format(app.config["UPLOAD_FOLDER"]))
-    for file in files:
-        os.remove(file)
-
-
-@app.route("/", methods=["GET", "POST"])
-@token_authed
+@app.route("/", methods=["POST"])
+@slack_signed
 def index():
-    # # Server check
-    if request.method == "GET":
-        response = jsonify({"message": "API OK"})
-        response.status_code = 200
-        return response
+    slack_message = request.json
 
-    # check if the post request has the file part
-    if "file" not in request.files:
-        print("files", request.files.to_dict())
-        print("method", request.method)
-        print("form", request.form.to_dict())
-        print("data", request.data)
-        response = jsonify({"message": "No file submitted"})
-        response.status_code = 500
-        return response
+    # This will never run if using eventsrouter...
+    if slack_message.get("type") == "url_verification":
+        return Response(slack_message.get("challenge"), status=200)
 
-    file = request.files["file"]
+    event = slack_message.get("event", {})
+    event_type = event.get("type", None)
 
-    # if user does not select file, browser also
-    # submit an empty part without filename
-    if file.filename == "":
-        response = jsonify({"message": "File submitted has no filename"})
-        response.status_code = 500
-        return response
+    if event_type != "file_shared":
+        return Response("Unsupported event type", status=401)
 
-    ensure_tmp()
-    if file and allowed_file(file.filename):
-        filename = get_filename()
-        file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-        file.save(file_path)
-        try:
-            dataset = Process(file_path)
-            dataset.etl()
-        except Exception as e:
-            response = jsonify(
-                {
-                    "message": "Error while processing data",
-                    "error": "{} Error: {}".format(e.__class__.__name__, e),
-                }
-            )
-            response.status_code = 500
-            return response
-        clear_uploads()
-        response = jsonify({"message": "OK"})
-        response.status_code = 200
-        return response
+    file_id = event.get("file_id", None)
+
+    if not file_id:
+        return Response("No file id", status=401)
+
+    try:
+        local_file = fetch_slack_file(file_id)
+    except Exception as e:
+        notify_error(e)
+        return Response("Error", status=500)
+
+    try:
+        dataset = Process(local_file)
+        dataset.etl()
+    except Exception as e:
+        notify_error(e)
+        return Response("Error", status=500)
+
+    notify_success()
+    clear_tmp()
+    return Response("OK", status=200)
