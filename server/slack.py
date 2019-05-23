@@ -75,9 +75,12 @@ def fetch_slack_file(file_id):
     if not url:
         raise DataFileNotFound("No download URL for file")
 
+    # unescape URL
+    url = url.replace("\\/", "/")
+
     # A quick check based only on the extension
     try:
-        extension = os.path.splitext(os.bath.basename(url))[1][1:].upper()
+        extension = os.path.splitext(os.path.basename(url))[1][1:].upper()
     except Exception:
         raise UnsupportedFileType("File must have a valid extension")
     if extension not in ALLOWED_FILE_TYPES:
