@@ -16,14 +16,14 @@
 Once you deploy your Lambda instance, make sure you set these variables in its environment.
 
 ```
-# Signing secret token for Read/Write app
-SLACK_SIGNING_SECRET=
+# Verification token from eventsrouter
+API_VERIFICATION_TOKEN=
 # Read/Write app OAuth access token
 SLACK_API_TOKEN=
 # Channel ID
 SLACK_CHANNEL=
 # Bot user ID
-SLACK_BOT_USER=U816PDLPN
+SLACK_BOT_USER=
 ```
 
 The variable `LAMBDA` should already be set.

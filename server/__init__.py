@@ -1,7 +1,7 @@
 from flask import Flask, request, Response
 from flask_cors import CORS
 from process import Process
-from .auth import slack_signed
+from .auth import token_authed
 from .slack import fetch_slack_file, notify_error, notify_success
 from .utils import clear_tmp
 
@@ -12,9 +12,9 @@ app.secret_key = b"SECRET_KEY"
 
 
 @app.route("/", methods=["POST"])
-@slack_signed
+@token_authed
 def index():
-    print("VERIFIES SLACK MESSAGE")
+    print("AUTHED")
     slack_message = request.json
 
     # This will never run if using eventsrouter...

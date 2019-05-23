@@ -35,6 +35,7 @@ class Process:
         data = self.df.to_json(orient="records")
         if os.getenv("LAMBDA"):
             print("SUCCESSFULLY PROCESSED")
+            print(data)
             # Do something here
             return
             # requests.post(

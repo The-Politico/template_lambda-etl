@@ -80,6 +80,7 @@ def fetch_slack_file(file_id):
         )
 
     local_file = download_file(url)
+    print("DOWNLOADED FILE")
     return local_file
 
 
