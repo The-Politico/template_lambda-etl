@@ -36,10 +36,16 @@ def get_filepath(url_or_path):
 def download_file(url):
     ensure_tmp()
     filepath = get_filepath(url)
+    headers = {
+        "Authorization": "Bearer {}".format(os.getenv("SLACK_API_TOKEN"))
+    }
     try:
-        with open(filepath, "wb") as f:
-            response = requests.get(url)
-            f.write(response.content)
+        with requests.get(url, headers=headers, stream=True) as r:
+            r.raise_for_status()
+            with open(filepath, "wb") as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
     except Exception as e:
         raise DataFileDownloadError(str(e))
     return filepath
