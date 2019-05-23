@@ -62,8 +62,8 @@ def fetch_slack_file(file_id):
     print("FETCHING FILE: ", file_id)
     """Requests Slack make a file upload publically available, downloads """
     client = slack.WebClient(token=os.getenv("SLACK_API_TOKEN"))
-    client.files_sharedPublicURL(file=file_id)
-    response = client.files_info(file=file_id)
+    client.files_sharedPublicURL(file_id)
+    response = client.files_info(file_id)
     if not response["ok"]:
         raise DataFileNotFound("Slack API errored")
     url = response.get("file", {}).get("url_download", None)
