@@ -1,6 +1,6 @@
 from time import time
 from functools import wraps
-from toolbox.slack.verify import verify_signature
+from toolbox.slack.verify import verify_signature, generate_signature
 
 
 def slack_signed(f):
@@ -35,7 +35,7 @@ def slack_signed(f):
             print("EXPIRED TIMESTAMP")
             return Response("", status=403)
 
-        body = request.get_data()
+        body = request.get_data(cache=False)
         if isinstance(body, str):
             print("CONVERTS BODY", body)
             body = body.encode("utf-8")
@@ -45,6 +45,13 @@ def slack_signed(f):
             print("VERIFIED")
             return f(*args, **kwargs)
         print("UNVERIFIED")
+        print("THEIRS: ", req_signature)
+        print(
+            "OURS: ",
+            generate_signature(
+                request_timestamp=req_timestamp, request_body_bytestring=body
+            ),
+        )
         return Response("", status=403)
 
     return decorated_function
