@@ -28,7 +28,7 @@ def get_filepath(url_or_path):
     filename = os.path.basename(url_or_path)
     extension = os.path.splitext(filename)[1]
     clean_filename = secure_filename(
-        "datafile_{}{}".format(uuid4().hex[:10], extension)
+        "datafile_{}{}".format(uuid4().hex[:10], extension.lower())
     )
     return os.path.join(TEMP_DIR, clean_filename)
 
@@ -37,12 +37,9 @@ def download_file(url):
     ensure_tmp()
     filepath = get_filepath(url)
     try:
-        with requests.get(url, stream=True) as r:
-            r.raise_for_status()
-            with open(filepath, "wb") as f:
-                for chunk in r.iter_content(chunk_size=8192):
-                    if chunk:
-                        f.write(chunk)
+        with open(filepath, "wb") as f:
+            response = requests.get(url)
+            f.write(response.content)
     except Exception as e:
         raise DataFileDownloadError(str(e))
     return filepath
