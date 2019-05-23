@@ -1,7 +1,7 @@
 from flask import Flask, request, Response
 from flask_cors import CORS
 from process import Process
-from toolbox.flask.authentication.slack import slack_signed
+from .auth import slack_signed
 from .slack import fetch_slack_file, notify_error, notify_success
 from .utils import clear_tmp
 
