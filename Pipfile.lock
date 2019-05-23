@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b4b22fc639b86f7e2074e29cbc8b571da55a54bca48c570116377866f682e299"
+            "sha256": "9f98a4f07bda2ddea0535f532eb04e3a3fc6b544f5a8ae7b8b0268876daae327"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -293,11 +293,11 @@
         },
         "politico-toolbox": {
             "hashes": [
-                "sha256:e0d21aaf88e3bbdd2057823701e5d6fad4907421503898e8076efdd9b477189d",
-                "sha256:ff6caeee20204bc08e0da3ff7f43c34f916c5a0b7899c649a2d2e62c2ee7df6c"
+                "sha256:9714fe695562aec4d664d013d7a1ed4adfa9a7e9ab1f678d381615131106e8c5",
+                "sha256:afd8555e527ad254eb320c4f8608c4742f27101158ca55971e8292ffb7fb61b1"
             ],
             "index": "pypi",
-            "version": "==0.0.7"
+            "version": "==0.0.8"
         },
         "pycares": {
             "hashes": [

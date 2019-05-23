@@ -15,7 +15,7 @@ xlrd = "*"
 requests = "*"
 flask-cors = "*"
 slackclient = "*"
-politico-toolbox = "*"
+politico-toolbox = ">=0.0.8"
 idna-ssl = "*"
 
 [requires]
