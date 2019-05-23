@@ -14,6 +14,7 @@ app.secret_key = b"SECRET_KEY"
 @app.route("/", methods=["POST"])
 @slack_signed
 def index():
+    print("VERIFIES SLACK MESSAGE")
     slack_message = request.json
 
     # This will never run if using eventsrouter...

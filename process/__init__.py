@@ -52,6 +52,7 @@ class Process:
             print(data)
 
     def etl(self):
+        print("PROCESSING")
         self.extract()
         self.transform()
         self.load()

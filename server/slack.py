@@ -59,6 +59,7 @@ def ensure_bot_access(func):
 @ensure_bot_access
 @check_env
 def fetch_slack_file(file_id):
+    print("FETCHING FILE")
     """Requests Slack make a file upload publically available, downloads """
     client = slack.WebClient(token=os.getenv("SLACK_API_TOKEN"))
     response = client.files_sharedPublicURL(file=file_id)
