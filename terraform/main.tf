@@ -1,6 +1,6 @@
 provider "aws" {
   region = "${var.aws_region}"
-  profile = "interactives"
+  profile = "<%=aws_profile%>"
 }
 
 
@@ -8,9 +8,9 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "politico-terraform-configs"
-    key = "configs/template-lambda-etl/terraform.tfstate"
+    key = "configs/<%=project_slug%>/terraform.tfstate"
     region = "us-east-1"
-    profile = "interactives"
+    profile = "<%=aws_profile%>"
     encrypt = true
   }
 }

@@ -29,6 +29,6 @@ $ make build
 
 ### Tearing down
 
-```
-$ make destroy
-```
+1. Delete the CloudFormation stack for your project in the AWS console.
+
+2. `$ make destroy`

@@ -1,5 +1,6 @@
 # Ignore terraform tmp files and secret files
 .terraform/
+*.secret
 .tmp/
 
 # Created by https://www.gitignore.io/api/python,macos,linux

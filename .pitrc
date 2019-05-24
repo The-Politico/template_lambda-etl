@@ -1,0 +1,55 @@
+module.exports = {
+  'name': 'Lambda ETL pipeline',
+  'renderer': 'ejs',
+  'category': null,
+  'prompts': [{
+    type: 'input',
+    name: 'github_repo',
+    message: 'What\'s the name of your github repo?',
+  }, {
+    type: 'input',
+    name: 'github_org',
+    message: 'Which org account does the repo belong to?',
+    default: 'The-Politico',
+  }, {
+    type: 'input',
+    name: 'project_slug',
+    message: 'Your project slug?',
+    default: (answers) => answers.github_repo
+      .replace(' ', '-')
+      .replace('_','-'),
+    validate: (value) => {
+      if(RegExp('^[A-Za-z][a-zA-Z0-9\-]*[a-zA-Z]$').test(value)) return true;
+      return 'Value must be a slug';
+    },
+  }, {
+    type: 'input',
+    name: 'aws_region',
+    message: 'Which AWS region should the bakery be in?',
+    default: 'us-east-1',
+  }, {
+    type: 'input',
+    name: 'aws_profile',
+    message: 'Which AWS profile should we use?',
+    default: 'interactives',
+  }, {
+    type: 'input',
+    name: 'prefix_path',
+    message: 'What\'s the publish path for your project?',
+    default: (answers) => `interactives/2019/${answers.project_slug}/`,
+  }],
+  'statics': {},
+  'ignore': [
+    'README.md',
+    '.gitignore',
+    // ignore for testing
+    'node_modules/',
+    '.git/',
+  ],
+  'justCopy': [],
+  'rename': {
+    'README.template.md': 'README.md',
+    '.gitignore.template': '.gitignore',
+    '.env.template': '.env',
+  }
+}
