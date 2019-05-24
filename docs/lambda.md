@@ -2,7 +2,7 @@
 
 # Setting up your AWS Lambda environment
 
-Once you deploy your Lambda instance, make sure you set these variables in its environment.
+Once you deploy your Lambda instance, make sure at minimum you set these variables in its environment.
 
 ##### `API_VERIFICATION_TOKEN`
 
@@ -35,7 +35,3 @@ Slack User ID, e.g., `U123456789`.
 ##### `LAMBDA`
 
 This variable should already be set for you as part of the deployment pipeline.
-
-##### Need more?
-
-If you need additional environment variables, we recommend adding them to the settings in `server/conf.py`.

@@ -1,6 +1,5 @@
-from os import path
+import os
 import pandas as pd
-from server.conf import settings
 from .errors import MismatchedDataSchema
 
 # REQUIRED!
@@ -14,7 +13,7 @@ class Process:
     def validateSchema(self):
         """Validate uploaded data's structure before cleaning or loading."""
         # Replace a test file
-        test_file = path.join(path.dirname(__file__), "test.xlsx")
+        test_file = os.path.join(os.path.dirname(__file__), "test.xlsx")
         testDf = pd.read_excel(open(test_file, "rb"), sheet_name="Sheet1")
         if not testDf.dtypes.equals(self.df.dtypes):
             raise MismatchedDataSchema("Data schema does not match test")
@@ -34,7 +33,7 @@ class Process:
     def load(self):
         """Load your clean data into an API or upload a static file."""
         data = self.df.to_json(orient="records")
-        if settings.LAMBDA:
+        if os.getenv("LAMBDA"):
             # Do something in LAMBDA
             print(data)
         else:
