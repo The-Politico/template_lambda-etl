@@ -3,7 +3,7 @@ from flask import request, Response
 from .conf import settings
 
 
-def token_authed(f):
+def authed(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         try:

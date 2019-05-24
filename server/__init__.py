@@ -1,7 +1,7 @@
 from flask import Flask, request, Response
 from flask_cors import CORS
 from process import Process
-from .auth import token_authed
+from .auth import authed
 from .slack import fetch_slack_file, notify_error, notify_success
 from .utils import clear_tmp
 
@@ -12,7 +12,7 @@ app.secret_key = b"SECRET_KEY"
 
 
 @app.route("/", methods=["POST"])
-@token_authed
+@authed
 def index():
     slack_message = request.json
 
@@ -33,11 +33,6 @@ def index():
 
     try:
         local_file = fetch_slack_file(file_id)
-    except Exception as e:
-        notify_error(e)
-        return Response("Error", status=500)
-
-    try:
         dataset = Process(local_file)
         dataset.etl()
     except Exception as e:
