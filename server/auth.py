@@ -1,6 +1,6 @@
-import os
 from functools import wraps
 from flask import request, Response
+from .conf import settings
 
 
 def token_authed(f):
@@ -10,7 +10,7 @@ def token_authed(f):
             token = request.headers.get("Authorization").split()[1]
         except Exception:
             return Response("", status=403)
-        if token == os.getenv("API_VERIFICATION_TOKEN"):
+        if token == settings.API_VERIFICATION_TOKEN:
             return f(*args, **kwargs)
 
         return Response("", status=403)

@@ -14,7 +14,6 @@ app.secret_key = b"SECRET_KEY"
 @app.route("/", methods=["POST"])
 @token_authed
 def index():
-    print("AUTHED")
     slack_message = request.json
 
     # This will never run if using eventsrouter...
@@ -26,8 +25,6 @@ def index():
 
     if event_type != "file_shared":
         return Response("Unsupported event type", status=401)
-
-    print("EVENT", event)
 
     file_id = event.get("file_id", None)
 

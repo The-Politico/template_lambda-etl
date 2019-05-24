@@ -1,9 +1,10 @@
-import os
 from os import path
 import pandas as pd
-
-# import requests
+from server.conf import settings
 from .errors import MismatchedDataSchema
+
+# REQUIRED!
+ALLOWED_FILE_TYPES = ["XLSX", "XLS"]
 
 
 class Process:
@@ -33,27 +34,15 @@ class Process:
     def load(self):
         """Load your clean data into an API or upload a static file."""
         data = self.df.to_json(orient="records")
-        if os.getenv("LAMBDA"):
-            print("SUCCESSFULLY PROCESSED")
+        if settings.LAMBDA:
+            # Do something in LAMBDA
             print(data)
-            # Do something here
-            return
-            # requests.post(
-            #     "http://localhost:3000/mock-api/",
-            #     headers={
-            #         "Access-Control-Allow-Origin": "*",
-            #         "Content-Type": "application/json",
-            #         "Authorization": "Token {}".format(
-            #             os.getenv("API_AUTH_TOKEN")
-            #         ),
-            #     },
-            #     data=data,
-            # )
         else:
+            # Do something in test
             print(data)
 
     def etl(self):
-        print("PROCESSING")
+        """This method is called by the server."""
         self.extract()
         self.transform()
         self.load()

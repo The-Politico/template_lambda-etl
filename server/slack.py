@@ -1,14 +1,10 @@
 import slack
 import time
 import os
+
+from process import ALLOWED_FILE_TYPES
 from .utils import download_file
-
-
-ALLOWED_FILE_TYPES = ["XLS", "XLSX", "CSV"]
-
-
-class MissingSlackConfig(Exception):
-    pass
+from .conf import settings
 
 
 class DataFileNotFound(Exception):
@@ -19,37 +15,13 @@ class UnsupportedFileType(Exception):
     pass
 
 
-def check_env(func):
-    """Checks if user has required env variables set.
-    """
-
-    def wrapper(*args, **kwargs):
-        if not os.getenv("SLACK_API_TOKEN", False):
-            raise MissingSlackConfig(
-                "No SLACK_API_TOKEN environment variable set"
-            )
-        if not os.getenv("SLACK_CHANNEL", False):
-            raise MissingSlackConfig(
-                "No SLACK_CHANNEL environment variable set"
-            )
-        return func(*args, **kwargs)
-
-    return wrapper
-
-
 def ensure_bot_access(func):
     """Ensures our bot has access to channel."""
 
     def wrapper(*args, **kwargs):
-        bot_user = os.getenv("SLACK_BOT_USER", False)
-        if not bot_user:
-            raise MissingSlackConfig(
-                "No SLACK_BOT_USER environment variable set"
-            )
-        client = slack.WebClient(token=os.getenv("SLACK_API_TOKEN"))
+        client = slack.WebClient(token=settings.SLACK_API_TOKEN)
         client.groups_invite(
-            channel=os.getenv("SLACK_CHANNEL"),
-            user=os.getenv("SLACK_BOT_USER"),
+            channel=settings.SLACK_CHANNEL, user=settings.SLACK_BOT_USER
         )
         return func(*args, **kwargs)
 
@@ -57,11 +29,9 @@ def ensure_bot_access(func):
 
 
 @ensure_bot_access
-@check_env
 def fetch_slack_file(file_id):
-    print("FETCHING FILE: ", file_id)
     """Requests Slack make a file upload publically available, downloads """
-    client = slack.WebClient(token=os.getenv("SLACK_API_TOKEN"))
+    client = slack.WebClient(token=settings.SLACK_API_TOKEN)
     try:
         client.files_sharedPublicURL(id="", file=file_id)
     except Exception:
@@ -89,17 +59,15 @@ def fetch_slack_file(file_id):
         )
 
     local_file = download_file(url)
-    print("DOWNLOADED FILE")
     return local_file
 
 
-@check_env
 def notify_error(exception):
     """Send an error message to a Slack channel."""
     error_name = exception.__class__.__name__
-    client = slack.WebClient(token=os.getenv("SLACK_API_TOKEN"))
+    client = slack.WebClient(token=settings.SLACK_API_TOKEN)
     client.chat_postMessage(
-        channel=os.getenv("SLACK_CHANNEL"),
+        channel=settings.SLACK_CHANNEL,
         username="ETL bot",
         attachments=[
             {
@@ -125,12 +93,11 @@ def notify_error(exception):
     )
 
 
-@check_env
 def notify_success():
     """Send an error message to a Slack channel."""
-    client = slack.WebClient(token=os.getenv("SLACK_API_TOKEN"))
+    client = slack.WebClient(token=settings.SLACK_API_TOKEN)
     client.chat_postMessage(
-        channel=os.getenv("SLACK_CHANNEL"),
+        channel=settings.SLACK_CHANNEL,
         username="ETL bot",
         text="<!here|here> :thumbsup: Processed data OK",
     )

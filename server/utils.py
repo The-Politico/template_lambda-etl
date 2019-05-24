@@ -3,15 +3,14 @@ import requests
 from uuid import uuid4
 import glob
 from werkzeug.utils import secure_filename
+from .conf import settings
 
 
 class DataFileDownloadError(Exception):
     pass
 
 
-TEMP_DIR = (
-    "/tmp/downloads" if os.getenv("LAMBDA", False) else "./.tmp/downloads"
-)
+TEMP_DIR = "/tmp/downloads" if settings.LAMBDA else "./.tmp/downloads"
 
 
 def ensure_tmp():
@@ -36,9 +35,7 @@ def get_filepath(url_or_path):
 def download_file(url):
     ensure_tmp()
     filepath = get_filepath(url)
-    headers = {
-        "Authorization": "Bearer {}".format(os.getenv("SLACK_API_TOKEN"))
-    }
+    headers = {"Authorization": "Bearer {}".format(settings.SLACK_API_TOKEN)}
     try:
         with requests.get(url, headers=headers, stream=True) as r:
             r.raise_for_status()
