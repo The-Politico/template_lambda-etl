@@ -39,7 +39,9 @@ module.exports = {
     '.gitignore',
     '.git/',
   ],
-  'justCopy': [],
+  'justCopy': [
+    '*.xlsx'
+  ],
   'rename': {
     'README.template.md': 'README.md',
     '.gitignore.template': '.gitignore',
