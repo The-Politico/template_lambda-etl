@@ -9,7 +9,7 @@ This is a [POLITICO interactive template](https://github.com/The-Politico/politi
 
 At POLITICO, we build ETL scripts to process recurring data like polls and trackers. An automated pipeline helps cut our developers out of the loop when data sources are predictable, which saves us time and lets us include more people from our newsroom when building the databases that run our pages.
 
-This template creates a fully-formed ETL pipeline. Your users can upload raw data sources in Slack, which will download the file and trigger your custom data cleaning and loading process in AWS Lambda.
+This template creates a fully-formed ETL pipeline. Your users can upload raw data sources in Slack, which will trigger your custom data cleaning and loading process in AWS Lambda.
 
 Using serverless architecture means ETL processes can scale to whatever size you need at the absolute minimum cost. It also means you don't ever need to worry about server availability for occasional processing.
 
