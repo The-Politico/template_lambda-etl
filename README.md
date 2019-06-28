@@ -3,7 +3,7 @@
 # template_lambda-etl
 
 
-This is a [POLITICO interactive template](https://github.com/The-Politico/politico-interactive-templates) to create a Python-based, AWS Lambda & Slack-backed ETL pipeline.
+This is a [POLITICO interactive template](https://github.com/The-Politico/politico-interactive-templates) to create a Python-based AWS Lambda ETL pipeline, triggered through Slack.
 
 ### Why this?
 
@@ -18,6 +18,7 @@ Using serverless architecture means ETL processes can scale to whatever size you
 The template includes an [AWS CloudFormation](https://aws.amazon.com/cloudformation/) template for creating an ETL pipeline hosted by AWS Lambda and triggered by file uploads in Slack. It also includes [Terraform](https://www.terraform.io/) scripts to build a deployment pipeline for continuous integration with a GitHub repository.
 
 The template contains boilerplate for your ETL process and the Lambda server that calls it, with Python libraries like [numpy](https://www.numpy.org/) and [pandas](https://pandas.pydata.org/) included out-of-the-box.
+
 
 ### Assumptions
 
